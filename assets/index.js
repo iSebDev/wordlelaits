@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     } else {
                         keyDiv.style.width = "10%";
                         keyDiv.textContent = j.toUpperCase();
+                        keyDiv.ariaLabel = j;
                     }
 
                     rowDiv.appendChild(keyDiv);

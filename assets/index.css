@@ -2,8 +2,12 @@
     --bg-color-light: #e0e0e0;
     --fg-color-light: #141414;
     --bg-color-dark: #131313;
-    --fg-color-dark: white;
+    --fg-color-dark: #ffffff;
     --not-letter: #222222;
+    --letter-default: #424242;
+    --not-selected: #3f4752;
+    --wrong-position: #e4a81d;
+    --correct-letter: #43a047;
 }
 
 html {
@@ -34,7 +38,7 @@ body {
 
 header {
     height: 3rem;
-    max-height: 3rem;
+    max-height: 4rem;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -57,7 +61,7 @@ header {
 }
 
 .itsdle-wrapper {
-    width: 35rem;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -98,7 +102,7 @@ header {
     align-items: center;
     font-size: 1.15rem;
     height: 3.5rem;
-    background: var(--not-letter);
+    background: var(--not-selected);
     border-radius: 0.5rem;
     font-weight: bold;
 }
