@@ -1,48 +1,49 @@
 document.addEventListener("DOMContentLoaded", () => {
     const keyData = "q w e r t y u i o p,a s d f g h j k l ñ,0 z x c v b n m 1";
-    const svg = {
+    const svgPaths = {
         "0": "assets/svg/icon-ch.svg",
         "1": "assets/svg/icon-rm.svg"
     };
 
-    class keyboardWrapper {
+    class KeyboardWrapper {
         constructor(dataString) {
-            this.rowDataArray = dataString.split(",");
+            this.rows = dataString.split(",");
             this.keyboardDiv = document.getElementById("keyboard-wrapper");
         }
 
+        createKey(key) {
+            const keyDiv = document.createElement("div");
+            keyDiv.className = "key-btn";
+
+            if (svgPaths[key]) {
+                const img = document.createElement("img");
+                img.src = svgPaths[key];
+                keyDiv.appendChild(img);
+                keyDiv.style.width = "15%";
+                keyDiv.id = `btn-${key}`;
+            } else {
+                keyDiv.textContent = key.toUpperCase();
+                keyDiv.setAttribute("aria-label", key);
+                keyDiv.style.width = "10%";
+            }
+
+            return keyDiv;
+        }
+
         constructKeyboard() {
-            this.rowDataArray.forEach((i) => {
-                const keyDataArray = i.split(" ");
+            this.rows.forEach(row => {
                 const rowDiv = document.createElement("div");
+                rowDiv.className = "row-div";
 
-                rowDiv.classList.add("row-div");
-
-                keyDataArray.forEach((j) => {
-                    const keyDiv = document.createElement("div");
-
-                    const buttonImg = document.createElement("img");
-
-                    if (j === "0" || j === "1") {
-                        buttonImg.setAttribute("src", svg[j]);
-                        buttonImg.style.width = "1.5rem";
-                        keyDiv.style.width = "15%";
-                        keyDiv.appendChild(buttonImg)
-                    } else {
-                        keyDiv.style.width = "10%";
-                        keyDiv.textContent = j.toUpperCase();
-                        keyDiv.ariaLabel = j;
-                    }
-
+                row.split(" ").forEach(key => {
+                    const keyDiv = this.createKey(key);
                     rowDiv.appendChild(keyDiv);
                 });
 
                 this.keyboardDiv.appendChild(rowDiv);
-            })
+            });
         }
     }
 
-    const keyboard = new keyboardWrapper(keyData); 
-
-    keyboard.constructKeyboard();
+    new KeyboardWrapper(keyData).constructKeyboard();
 });
