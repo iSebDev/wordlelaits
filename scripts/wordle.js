@@ -1,3 +1,5 @@
+import { Handler } from "./event.js";
+
 export class KeyboardWrapper {
     constructor() {
         this.keyData = "q w e r t y u i o p,a s d f g h j k l ñ,0 z x c v b n m 1";
@@ -80,14 +82,15 @@ class WordRow {
 }
 
 export class WordlePanel {
-    constructor(length, max) {
+    constructor(word, length, max) {
+        this.word = word;
         this.length = length;
         this.max = max;
     }
     
     createRow() {
         for (let i=0; i<this.max; i++) {
-            new WordRow("PANCHO", this.length)
+            new WordRow(this.word, this.length)
         }
     } 
 }
