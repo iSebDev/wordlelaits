@@ -3,6 +3,7 @@
     --fg-color-light: #141414;
     --bg-color-dark: #131313;
     --fg-color-dark: #ffffff;
+    --board-hover: #919191;
     --not-letter: #222222;
     --letter-default: #424242;
     --not-selected: #3f4752;
@@ -87,6 +88,7 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 1rem;
 
     & > div {
         display: flex;
@@ -125,10 +127,45 @@ header {
     background: var(--not-selected);
     border-radius: 0.5rem;
     font-weight: bold;
+
+    &.used {
+        background-color: var(--not-letter);
+    }
+
+    &:not(.used):hover {
+        background-color: var(--board-hover);
+    }
 }
 
 .key-btn img {
     width: 1.5rem;
+}
+
+#wordle-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 35;
+    width: 100%;
+    gap: 5px;
+}
+
+.wordle-row {
+    display: flex;
+    flex-direction: row;
+    max-height: 40px;
+    height: 100%;
+    width: max-content;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.letter-column {
+    width: 40px;
+    height: 40px;
+    border: solid 3px var(--letter-default);
+    border-radius: 0.5rem;
 }
 
 @media (max-width: 600px) {
