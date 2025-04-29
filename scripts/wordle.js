@@ -76,6 +76,10 @@ class WordRow {
             const id = row.childElementCount > 0 ? row.childElementCount + 1 : 1; 
             letterColumn.id = `letter-${id}`;
 
+            const span = document.createElement("span");
+
+            letterColumn.appendChild(span);
+
             row.appendChild(letterColumn);
         }
     }

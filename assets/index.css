@@ -178,9 +178,18 @@ header {
     height: 50px;
     border: solid 3px var(--letter-default);
     border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
     &:hover {
         cursor: pointer;
+    }
+
+    & > span {
+        font-size: 22px;
+        font-weight: bold;
     }
 }
 
