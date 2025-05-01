@@ -1,5 +1,3 @@
-import { Handler } from "./event.js";
-
 export class KeyboardWrapper {
     constructor() {
         this.keyData = "q w e r t y u i o p,a s d f g h j k l ñ,0 z x c v b n m 1";
@@ -56,7 +54,7 @@ class WordRow {
 
     spawnRow() {
         const panelRow = document.createElement("div");
-        panelRow.className = "wordle-row";
+        panelRow.className = "wordle-row enabled";
 
         const id = this.panel.childElementCount > 0 ? this.panel.childElementCount + 1 : 1;
         panelRow.id = `row-${id}`;
@@ -94,7 +92,11 @@ export class WordlePanel {
     
     createRow() {
         for (let i=0; i<this.max; i++) {
-            new WordRow(this.word, this.length)
+            new WordRow(this.word, this.length);
         }
-    } 
+    }
+
+    update() {
+        document.querySelector(".wordle-row.enabled").classList.add("playing");
+    }
 }

@@ -1,7 +1,7 @@
 :root {
     --bg-color-light: #e0e0e0;
     --fg-color-light: #141414;
-    --bg-color-dark: #131313;
+    --bg-color-dark: #131416;
     --fg-color-dark: #ffffff;
     --board-hover: #919191;
     --not-letter: #222222;
@@ -37,7 +37,7 @@ body {
 
 .itsdle {
     width: 100%;
-    max-width: 35rem;
+    max-width: 45rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -171,6 +171,10 @@ header {
     width: max-content;
     gap: 5px;
     margin-top: 5px;
+
+    &.enabled.playing > .letter-column:hover {
+        cursor: pointer;
+    }
 }
 
 .letter-column {
@@ -182,9 +186,9 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    &:hover {
-        cursor: pointer;
+    
+    &.selected {
+        border: solid 3px var(--board-hover);
     }
 
     & > span {
