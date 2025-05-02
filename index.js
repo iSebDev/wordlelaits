@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const keyboard = new KeyboardWrapper();
     keyboard.constructKeyboard();
 
-    const panel = new WordlePanel("AUDIO", 5, 6);
+    const panel = new WordlePanel("MOMOS", 5, 6);
     panel.createRow();
 
     panel.update();

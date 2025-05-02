@@ -56,7 +56,7 @@ class WordRow {
         const panelRow = document.createElement("div");
         panelRow.className = "wordle-row enabled";
 
-        const id = this.panel.childElementCount > 0 ? this.panel.childElementCount + 1 : 1;
+        const id = this.panel.childElementCount > 0 ? this.panel.childElementCount : 0;
         panelRow.id = `row-${id}`;
         
         panelRow.style.gridTemplateColumns = "repeat(1, 6fr)";
@@ -71,7 +71,7 @@ class WordRow {
             const letterColumn = document.createElement("div");
             letterColumn.className = "letter-column";
 
-            const id = row.childElementCount > 0 ? row.childElementCount + 1 : 1; 
+            const id = row.childElementCount > 0 ? row.childElementCount : 0; 
             letterColumn.id = `letter-${id}`;
 
             const span = document.createElement("span");
