@@ -100,7 +100,8 @@ export class Handler {
             });
         });
     }
-
+    
+    // Sistema para que apenas tocas teclas se seleccione uno automaticamente sin tener que dar un click a uno
     updateEvent() {
         this.selected = document.querySelector(".letter-column.selected span");
 
@@ -108,6 +109,6 @@ export class Handler {
 
         if (!(this.selected === null)) return;
 
-        this.selected = this.playingRow.querySelector(".letter-column.selected");
+        this.selected = this.playingRow.querySelector(".letter-column");
     }
 }
