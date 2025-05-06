@@ -1,5 +1,6 @@
 import { KeyboardWrapper, WordlePanel } from "./scripts/wordle.js";
 import { Handler } from "./scripts/event.js";
+import { } from "./scripts/api.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const keyboard = new KeyboardWrapper();
@@ -7,8 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const panel = new WordlePanel("MOMOS", 5, 6);
     panel.createRow();
-
     panel.update();
 
-    new Handler();
+    new Handler(panel, keyboard);
 });
