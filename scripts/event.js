@@ -11,6 +11,7 @@ export class Handler {
         this.backspace = "Backspace";
         this.left = "ArrowLeft";
         this.right = "ArrowRight";
+        this.enter = "Enter";
 
         this.keyBoard = document.querySelectorAll(".key-btn");
 
@@ -24,6 +25,8 @@ export class Handler {
         this.keyBoardHandler();
 
         this.updateEvent();
+
+        this.interaction.moveRight();
     }
 
     keyPressHandler() {
@@ -45,6 +48,9 @@ export class Handler {
                     break;
                 case this.right:
                     this.interaction.moveRight();
+                    break;
+                case this.enter:
+                    this.interaction.send();
                     break;
                 default:
                     break;
