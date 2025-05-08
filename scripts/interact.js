@@ -122,8 +122,6 @@ export class Interaction {
 
         const word = filled.map(l => l.querySelector("span").textContent).join("");
 
-        alert("pase 2");
-
         this.playingRow.classList.remove("enabled");
         this.playingRow.classList.remove("playing");
 
