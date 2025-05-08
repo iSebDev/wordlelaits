@@ -1,3 +1,5 @@
+import { Utils } from "./utils.js";
+
 export class Interaction {
     constructor() {
         this.letters = document.querySelectorAll(".letter-column");
@@ -5,6 +7,10 @@ export class Interaction {
 
         this.selected = null;
         this.playingRow = null;
+        
+        this.attempts = null;
+
+        this.utils = new Utils();
     }
 
     setContext(selected, playingRow) {
@@ -37,7 +43,7 @@ export class Interaction {
     }
     
     moveRight() {
-        if (!this.selected) {
+        if (!this.selected && this.playingRow !== null) {
             this.setSelected(this.playingRow.firstChild);
             return;
         }
@@ -127,6 +133,8 @@ export class Interaction {
 
         this.playingRow = document.querySelector(".wordle-row.enabled");
 
+        this.attempts = document.querySelectorAll(".wordle-row:not(.enabled)");
+
         this.moveRight();
         
         if (!this.playingRow) return;
@@ -134,8 +142,16 @@ export class Interaction {
         this.playingRow.classList.add("playing"); 
 
         this.letters.forEach((i) => i.classList.remove("selected"));
-        this.selected = null;
 
-        return word;
+        this.utils.setLocalData({
+            word: word,
+            attempts: Array.from(this.attempts).map((i) => {
+                return Array.from(i.querySelectorAll(".letter-column")).map((j) => {
+                    return j.querySelector("span").textContent;
+                }).join("");
+            })
+        });
+
+        this.selected = null;
     }
 }

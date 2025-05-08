@@ -15,22 +15,29 @@ export class Utils {
     }
     
     getLocalData = () => {
-        const data = localStorage.getItem(superEncrypt(getFormattedDate()));
+        const data = localStorage.getItem(this.superEncrypt(this.getFormattedDate()));
         if (!data) return null;
+
+        const decryptedData = Array.from(data).map((char) => {
+            const charCode = char.charCodeAt(0) - 1;
+            return String.fromCharCode(charCode); 
+        }).reverse().join("");
+
+        console.log(decryptedData);
+
         try {
-            return JSON.parse(data);
+            return JSON.parse(decryptedData);
         } catch (e) {
-            console.error("Error parsing JSON from localStorage:", e);
             return null;
         }
     }
     
     transformLocalData = () => {
-        const data = getLocalData();
+        const data = this.getLocalData();
         if (!data) return null;
         const transformedData = {
             ...data,
-            date: getFormattedDate(),
+            date: this.getFormattedDate(),
             word: data.word.toUpperCase(),
             attempts: data.attempts.map(attempt => attempt.toUpperCase())
         };
@@ -38,17 +45,27 @@ export class Utils {
     }
     
     setLocalData = (data) => {
-        const transformedData = {
+        this.clearLocalData();
+        
+        const mainData = {
             ...data,
-            date: getFormattedDate(),
+            date: this.getFormattedDate(),
             word: data.word.toUpperCase(),
             attempts: data.attempts.map(attempt => attempt.toUpperCase())
         };
-        localStorage.setItem(superEncrypt(getFormattedDate()), JSON.stringify(transformedData));
+
+        const jsonData = JSON.stringify(mainData);
+
+        const finalData = Array.from(jsonData).map((char) => {
+            const charCode = char.charCodeAt(0) + 1;
+            return String.fromCharCode(charCode); 
+        }).reverse().join("");
+
+        localStorage.setItem(this.superEncrypt(this.getFormattedDate()), finalData);
     }
     
     clearLocalData = () => {
-        if (superEncrypt(getFormattedDate())) return;
+        if (this.superEncrypt(this.getFormattedDate())) return;
         localStorage.clear();
     }
 }

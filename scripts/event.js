@@ -1,5 +1,4 @@
 import { Interaction } from "./interact.js";
-import { Utils } from "./utils.js";
 
 export class Handler {
     constructor(panel, keyboard) {
