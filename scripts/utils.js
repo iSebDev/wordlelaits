@@ -1,6 +1,6 @@
 export class Utils {
     constructor() {
-        this.monitorLocalStorage();
+        //this.monitorLocalStorage();
     }
     
     getFormattedDate = () => {
@@ -26,8 +26,6 @@ export class Utils {
             const charCode = char.charCodeAt(0) - 1;
             return String.fromCharCode(charCode); 
         }).reverse().join("");
-
-        console.log(decryptedData);
 
         try {
             return JSON.parse(decryptedData);
@@ -69,7 +67,6 @@ export class Utils {
     }
     
     clearLocalData = () => {
-        if (this.superEncrypt(this.getFormattedDate())) return;
         localStorage.clear();
     }
 }

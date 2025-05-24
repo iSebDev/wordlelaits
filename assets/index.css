@@ -132,18 +132,6 @@ header {
         cursor: pointer;
     }
 
-    &.used {
-        background-color: var(--not-letter);
-    }
-
-    &.correct {
-        background-color: var(--correct-letter);
-    }
-
-    &.wrong {
-        background-color: var(--wrong-position);
-    }
-
     &:not(.used):hover {
         background-color: var(--board-hover);
     }
@@ -186,6 +174,7 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    transition: all 0.3s ease;
     
     &.selected {
         border: solid 3px var(--board-hover);
@@ -195,6 +184,19 @@ header {
         font-size: 22px;
         font-weight: bold;
     }
+
+    &.used {
+        background-color: var(--not-letter);
+    }
+
+    &.correct {
+        background-color: var(--correct-letter);
+    }
+
+    &.wrong {
+        background-color: var(--wrong-position);
+    }
+
 }
 
 @media (max-width: 600px) {

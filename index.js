@@ -9,5 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
     panel.createRow();
     panel.update();
 
-    new Handler(panel, keyboard);
+    const handler = new Handler(panel, keyboard);
+    handler.updateEvent();
 });

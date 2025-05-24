@@ -19,7 +19,9 @@ export class Interaction {
         this.letters = document.querySelectorAll(".enabled.playing .letter-column");
     }
 
-    writeLetter(letter) {        
+    writeLetter(letter) {      
+        if (!this.selected.querySelector("span")) return;
+
         this.selected.querySelector("span").textContent = letter.toUpperCase();
         this.moveToNext();
     }
@@ -97,8 +99,8 @@ export class Interaction {
 
     backspaceSelected() {
         if (this.selected) {
-            this.selected.querySelector("span").textContent = "";
             this.moveToPrevious();
+            this.selected.querySelector("span").textContent = "";
         } else {
             this.backspaceNoSelected();
         }
@@ -115,7 +117,90 @@ export class Interaction {
         const lastFilled = filled[filled.length - 1];
         this.setSelected(lastFilled);
         lastFilled.querySelector("span").textContent = "";
-        this.moveToPrevious();
+    }
+
+    checkWordsFromStart(word) {
+        const data = this.utils.getLocalData();
+        
+        const attempts = Array.from(document.querySelectorAll(".wordle-row"))
+            .filter(row => !row.classList.contains("enabled"));
+    
+        let delay = 0;
+        attempts.forEach((row) => {
+            row.querySelectorAll("div").forEach((l, i) => {
+                setTimeout(() => {
+                    if (l.querySelector("span").textContent === String(word).charAt(i)) {
+                        l.classList.add("correct");
+                    } else {
+                        l.classList.add("used");
+                    }
+                }, delay);
+                delay += 150;
+            });
+        });
+    }
+
+    checkWord(word) {
+        const data = this.utils.getLocalData();
+        
+        const attempts = Array.from(document.querySelectorAll(".wordle-row"))
+            .filter(row => !row.classList.contains("enabled"));
+    }
+
+    data() {
+        const data = this.utils.getLocalData();
+        const date = this.utils.getFormattedDate();
+
+        if (!data || !Array.isArray(data["attempts"]) || date !== data["date"]) {
+            this.utils.clearLocalData();
+            return;
+        }
+
+        const rows = document.querySelectorAll(".wordle-row");
+        let lastFilledLetter = null;
+
+        data["attempts"].forEach((attempt, idx) => {
+            if (idx >= rows.length) return;
+
+            const row = rows[idx];
+            row.classList.add("playing");
+
+            const letters = row.querySelectorAll(".letter-column");
+
+            String(attempt).split("").forEach((l, i) => {
+                if (letters[i]) {
+                    letters[i].querySelector("span").textContent = l.toUpperCase();
+                    lastFilledLetter = letters[i];
+                }
+            });
+            row.classList.remove("enabled");
+            row.classList.remove("playing");
+        });
+
+        if (lastFilledLetter) {
+            this.clearSelection();
+        }
+
+        let nextRow = null;
+        for (let row of rows) {
+            const letters = row.querySelectorAll(".letter-column");
+            const isEmpty = Array.from(letters).every(l => l.querySelector("span").textContent === "");
+            if (isEmpty) {
+                nextRow = row;
+                break;
+            }
+        }
+
+        if (nextRow) {
+            nextRow.classList.add("enabled", "playing");
+            this.playingRow = nextRow;
+            this.letters = nextRow.querySelectorAll(".letter-column");
+        } else {
+            this.playingRow = null;
+            this.letters = [];
+        }
+
+        this.send();
     }
 
     send() {
@@ -124,32 +209,34 @@ export class Interaction {
         const letters = Array.from(this.playingRow.querySelectorAll(".letter-column"));
         const filled = letters.filter(l => l.querySelector("span").textContent !== "");
 
-        if (filled.length < this.letters.length) return;
+        if (filled.length < letters.length) return;
 
         const word = filled.map(l => l.querySelector("span").textContent).join("");
+
+        const allAttempts = Array.from(document.querySelectorAll(".wordle-row"))
+            .filter(row => !row.classList.contains("enabled"))
+            .concat([this.playingRow]);
+
+        const attempts = allAttempts.map(row => 
+            Array.from(row.querySelectorAll(".letter-column"))
+            .map(j => j.querySelector("span").textContent)
+            .join("")
+        );
 
         this.playingRow.classList.remove("enabled");
         this.playingRow.classList.remove("playing");
 
         this.playingRow = document.querySelector(".wordle-row.enabled");
 
-        this.attempts = document.querySelectorAll(".wordle-row:not(.enabled)");
-
         this.moveRight();
         
-        if (!this.playingRow) return;
-
-        this.playingRow.classList.add("playing"); 
+        this.playingRow?.classList.add("playing"); 
 
         this.letters.forEach((i) => i.classList.remove("selected"));
-
+        
         this.utils.setLocalData({
             word: word,
-            attempts: Array.from(this.attempts).map((i) => {
-                return Array.from(i.querySelectorAll(".letter-column")).map((j) => {
-                    return j.querySelector("span").textContent;
-                }).join("");
-            })
+            attempts: attempts
         });
 
         this.selected = null;

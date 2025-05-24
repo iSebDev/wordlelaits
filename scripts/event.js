@@ -23,10 +23,14 @@ export class Handler {
         this.keyPressHandler();
         this.letterPressHandler();
         this.keyBoardHandler();
-
+        
         this.updateEvent();
 
-        this.interaction.moveRight();
+        setTimeout(() => {
+            this.interaction.data();
+            this.interaction.checkWordsFromStart(panel.word);
+            this.interaction.moveRight();
+        }, 150);   
     }
 
     keyPressHandler() {
@@ -51,6 +55,7 @@ export class Handler {
                     break;
                 case this.enter:
                     this.interaction.send();
+                    this.interaction.checkWord();
                     break;
                 default:
                     break;
